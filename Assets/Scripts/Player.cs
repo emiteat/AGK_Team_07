@@ -1,67 +1,68 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class Player : MonoBehaviour
+public class Blackjack : MonoBehaviour
 {
+    // 게임 진행에 필요한 변수들
     [SerializeField]
-    private List<string> deck;
+    private List<string> deck; // 카드 덱
     [SerializeField]
-    private List<List<string>> playerHands; // 플레이어들의 손패
+    private List<string> playerHand; // 플레이어의 카드
     [SerializeField]
-    private List<string> dealerHand;
+    private List<string> dealerHand; // 딜러의 카드
     [SerializeField]
-    private int currentPlayer; // 현재 차례의 플레이어
+    private int Turn = 0; // 현재 턴 수
 
+    public TextMeshProUGUI hand;
+    public TextMeshProUGUI Dealer;
+
+    // UI 요소
     public Button hitButton; // Hit 버튼
-    public Button standButton; // Stand 버튼
-    public Text statusText; // 상태 메시지 출력용
+    public Button dieButton; // Die 버튼
+    public Button stayButton; // Stay 버튼
 
+    private bool isPlayerTurn = true; // 현재 턴이 플레이어의 턴인지 확인
+
+    // 게임 시작 시 호출
     void Start()
     {
         InitializeGame();
     }
 
-    // 게임 초기화
+    // 게임 초기화: 카드 덱 생성 및 초기 손패 배분
     void InitializeGame()
     {
-        deck = CreateDeck();
-        ShuffleDeck(deck);
+        deck = CreateDeck(); // 덱 생성
+        ShuffleDeck(deck); // 덱 섞기
 
-        playerHands = new List<List<string>>();
+        playerHand = new List<string>();
         dealerHand = new List<string>();
 
-        // 3명의 플레이어 생성
-        for (int i = 0; i < 3; i++)
-        {
-            playerHands.Add(new List<string>());
-            playerHands[i].Add(DrawCard());
-            playerHands[i].Add(DrawCard());
-        }
-
-        // 딜러에게 카드 2장 배분
+        // 플레이어와 딜러에게 카드 2장씩 배분
+        playerHand.Add(DrawCard());
+        playerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
 
-        currentPlayer = 0; // 첫 번째 플레이어부터 시작
-
+        // UI 및 현재 상태 표시
         UpdateUI();
         DisplayHands();
     }
 
-    // 덱 생성
+    // 덱 생성: 카드 52장 생성
     List<string> CreateDeck()
     {
         List<string> newDeck = new List<string>();
-        string[] suits = { "Hearts", "Diamonds", "Clubs", "Spades" };
-        string[] values = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+        string[] suits = { "Heart", "Diamond", "Clover", "Spade" }; // 카드 모양
+        string[] values = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" }; // 카드 값
 
         foreach (string suit in suits)
         {
             foreach (string value in values)
             {
-                newDeck.Add(value + " of " + suit);
+                newDeck.Add(value + "_" + suit); // 예: "2_Heart"
             }
         }
 
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < deck.Count; i++)
         {
-            int randomIndex = Random.Range(0, deck.Count);
+            int randomIndex = Random.Range(0, deck.Count); // 랜덤 인덱스 선택
             string temp = deck[i];
             deck[i] = deck[randomIndex];
             deck[randomIndex] = temp;
@@ -83,10 +84,10 @@ public class Player : MonoBehaviour
     // 카드 뽑기
     string DrawCard()
     {
-        if (deck.Count == 0) return null;
+        if (deck.Count == 0) return null; // 덱에 카드가 없으면 null 반환
 
-        string card = deck[0];
-        deck.RemoveAt(0);
+        string card = deck[0]; // 덱의 첫 번째 카드 가져오기
+        deck.RemoveAt(0); // 뽑은 카드는 덱에서 제거
         return card;
     }
 
@@ -98,74 +99,81 @@ public class Player : MonoBehaviour
 
         foreach (string card in hand)
         {
-            string value = card.Split(' ')[0];
-            if (int.TryParse(value, out int numericValue))
+            string value = card.Split('_')[0]; // 카드 값만 분리
+            if (int.TryParse(value, out int numericValue)) // 숫자 카드 처리
             {
                 score += numericValue;
             }
-            else if (value == "J" || value == "Q" || value == "K")
+            else if (value == "J" || value == "Q" || value == "K") // 그림 카드 처리
             {
                 score += 10;
             }
-            else if (value == "A")
+            else if (value == "A") // 에이스 처리
             {
                 aceCount++;
-                score += 11; // Ace는 11로 계산
+                score += 11;
             }
         }
 
+        // Ace가 11로 계산되어 21을 초과할 경우, Ace를 1로 계산
         while (score > 21 && aceCount > 0)
         {
-            score -= 10; // Ace를 1로 계산
+            score -= 10;
             aceCount--;
         }
 
         return score;
     }
 
-    // 플레이어 카드 추가
-    public void PlayerHit()
+    // 플레이어가 Hit 버튼을 눌렀을 때: 카드 추가
+    public void Hit()
     {
-        if (currentPlayer >= playerHands.Count) return; // 모든 플레이어가 턴을 끝냈다면 무시
+        if (!isPlayerTurn) return;
 
-        playerHands[currentPlayer].Add(DrawCard());
-        Debug.Log("Player " + (currentPlayer + 1) + " Hand: " + string.Join(", ", playerHands[currentPlayer]) +
-                  " (Score: " + CalculateScore(playerHands[currentPlayer]) + ")");
+        playerHand.Add(DrawCard()); // 카드 한 장 추가
+        int score = CalculateScore(playerHand); // 점수 계산
+        Turn++; // 턴 증가
 
-        if (CalculateScore(playerHands[currentPlayer]) > 21)
+        Debug.Log("Player Hand: " + string.Join(", ", playerHand) + " (Score: " + score + ")");
+
+        if (score > 21) // 점수가 21을 초과하면 Bust 처리
         {
-            Debug.Log("Player " + (currentPlayer + 1) + " Busted!");
-            NextTurn();
+            Bust();
         }
 
         UpdateUI();
     }
 
-    // 플레이어 차례 종료
-    public void PlayerStand()
+    // 플레이어가 Bust되는 경우
+    void Bust()
     {
-        Debug.Log("Player " + (currentPlayer + 1) + " Stands.");
-        NextTurn();
+        Debug.Log("Player Busted! Dealer Wins.");
+        hitButton.interactable = false;
+        dieButton.interactable = false;
+        stayButton.interactable = false;
+        isPlayerTurn = false; // 턴 종료
     }
 
-    // 다음 차례로 이동
-    void NextTurn()
+    // Stand 버튼: 플레이어 턴 종료 후 딜러 턴
+    public void Stand()
     {
-        currentPlayer++;
+        if (!isPlayerTurn) return;
 
-        if (currentPlayer >= playerHands.Count)
-        {
-            Debug.Log("All players have finished. Dealer's Turn.");
-            DealerTurn();
-        }
-        else
-        {
-            UpdateUI();
-            Debug.Log("Player " + (currentPlayer + 1) + "'s Turn.");
-        }
+        Debug.Log("Player Stands.");
+        DealerTurn();
     }
 
-    // 딜러 차례
+    // Stay 버튼: 턴을 넘기는 기능
+    public void Stay()
+    {
+        if (!isPlayerTurn) return;
+
+        Debug.Log("Player Stays. Dealer's Turn.");
+        isPlayerTurn = false; // 플레이어 턴 종료
+        DealerTurn();
+    }
+
+    // 딜러 턴: 17 이상이 될 때까지 카드 추가
     void DealerTurn()
     {
         while (CalculateScore(dealerHand) < 17)
@@ -173,64 +181,67 @@ public class Player : MonoBehaviour
             dealerHand.Add(DrawCard());
         }
 
-        Debug.Log("Dealer Hand: " + string.Join(", ", dealerHand) + " (Score: " + CalculateScore(dealerHand) + ")");
+        Debug.Log("Dealer Hand : " + string.Join(", ", dealerHand) + " (Score: " + CalculateScore(dealerHand) + ")");
         DetermineWinner();
     }
 
     // 승자 결정
     void DetermineWinner()
     {
+        int playerScore = CalculateScore(playerHand);
         int dealerScore = CalculateScore(dealerHand);
 
-        for (int i = 0; i < playerHands.Count; i++)
+        if (dealerScore > 21 || playerScore > dealerScore)
         {
-            int playerScore = CalculateScore(playerHands[i]);
-
-            if (playerScore > 21)
-            {
-                Debug.Log("Player " + (i + 1) + " Busted! Dealer Wins.");
-            }
-            else if (dealerScore > 21 || playerScore > dealerScore)
-            {
-                Debug.Log("Player " + (i + 1) + " Wins!");
-            }
-            else if (dealerScore > playerScore)
-            {
-                Debug.Log("Dealer Wins against Player " + (i + 1) + "!");
-            }
-            else
-            {
-                Debug.Log("Player " + (i + 1) + " and Dealer Tie!");
-            }
+            Debug.Log("Player Wins!");
         }
+        else if (dealerScore > playerScore)
+        {
+            Debug.Log("Dealer Wins!");
+        }
+        else
+        {
+            Debug.Log("It's a Tie!");
+        }
+
+        hitButton.interactable = false;
+        dieButton.interactable = false;
+        stayButton.interactable = false;
     }
 
-    // 현재 손패 출력
+    // 현재 손패 UI로 출력
     void DisplayHands()
     {
-        for (int i = 0; i < playerHands.Count; i++)
-        {
-            Debug.Log("Player " + (i + 1) + " Hand: " + string.Join(", ", playerHands[i]) +
-                      " (Score: " + CalculateScore(playerHands[i]) + ")");
-        }
-
-        Debug.Log("Dealer Hand: " + dealerHand[0] + ", [Hidden]");
+        hand.text = ("Player Hand: " + string.Join(", ", playerHand) + " (Score: " + CalculateScore(playerHand) + ")");
+        Dealer.text = ("Dealer Hand: " + dealerHand[0] + ", [Hidden]"); // 딜러는 첫 카드만 공개
     }
 
     // UI 상태 업데이트
     void UpdateUI()
     {
-        if (currentPlayer >= playerHands.Count)
+        int score = CalculateScore(playerHand);
+
+        if (score > 21 || !isPlayerTurn) // Bust 상태거나 턴 종료 시 버튼 비활성화
         {
             hitButton.interactable = false;
-            standButton.interactable = false;
-            statusText.text = "Dealer's Turn";
+            dieButton.interactable = false;
+            stayButton.interactable = false;
         }
         else
         {
             hitButton.interactable = true;
-            standButton.interactable = true;
-            statusText.text = "Player " + (currentPlayer + 1) + "'s Turn!";
+            dieButton.interactable = true;
+            stayButton.interactable = true;
+        }
+    }
+
+    // Die 버튼: 첫 턴에서 Die를 선택할 경우
+    void Die()
+    {
+        if (Turn == 0) // 첫 턴인지 확인
+        {
+            Debug.Log("Player Chooses to Die. Dealer Wins.");
+            Bust();
         }
     }
 }
