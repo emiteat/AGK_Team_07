@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         playerHands = new List<List<string>>();
         dealerHand = new List<string>();
 
-        // 3명의 플레이어 생성
+        // 플레이어 생성
         for (int i = 0; i < 3; i++)
         {
             playerHands.Add(new List<string>());
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
             playerHands[i].Add(DrawCard());
         }
 
-        // 딜러에게 카드 2장 배분
+        // 딜러 카드 배분
         dealerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
 
@@ -83,20 +83,20 @@ public class Player : MonoBehaviour
     // 카드 뽑기
     string DrawCard()
     {
-        if (deck.Count == 0) return null;
+        if (deck.Count == 0) return null; // deck.Count가 0이라면 null값 반환
 
-        string card = deck[0];
-        deck.RemoveAt(0);
-        return card;
+        string card = deck[0]; // string 타입의 card를 deck의 0번째 배열에 기입
+        deck.RemoveAt(0); // deck에 있는 0번째 배열을 삭제
+        return card; // card 값 반환
     }
 
     // 점수 계산
-    int CalculateScore(List<string> hand)
+    int CalculateScore(List<string> hand) // 점수 계산
     {
         int score = 0;
         int aceCount = 0;
 
-        foreach (string card in hand)
+        foreach (string card in hand) // card 값만큼 
         {
             string value = card.Split(' ')[0];
             if (int.TryParse(value, out int numericValue))
