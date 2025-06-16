@@ -154,15 +154,6 @@ public class Blackjack : MonoBehaviour
         isPlayerTurn = false; // 턴 종료
     }
 
-    // Stand 버튼: 플레이어 턴 종료 후 딜러 턴
-    public void Stand()
-    {
-        if (!isPlayerTurn) return;
-
-        Debug.Log("Player Stands.");
-        DealerTurn();
-    }
-
     // Stay 버튼: 턴을 넘기는 기능
     public void Stay()
     {
@@ -238,10 +229,11 @@ public class Blackjack : MonoBehaviour
     // Die 버튼: 첫 턴에서 Die를 선택할 경우
     void Die()
     {
-        if (Turn == 0) // 첫 턴인지 확인
+        if (Turn != 0) // 첫 턴인지 확인
         {
-            Debug.Log("Player Chooses to Die. Dealer Wins.");
-            Bust();
+            return;
         }
+        Debug.Log("Player Chooses to Die. Dealer Wins.");
+        Bust();
     }
 }
