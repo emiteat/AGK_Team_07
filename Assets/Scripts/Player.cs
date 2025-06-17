@@ -14,6 +14,8 @@ public class Blackjack : MonoBehaviour
     private List<string> dealerHand; // 딜러의 카드
     [SerializeField]
     private int Turn = 0; // 현재 턴 수
+    [SerializeField]
+    public bool playerWin;
 
     public TextMeshProUGUI hand;
     public TextMeshProUGUI Dealer;
