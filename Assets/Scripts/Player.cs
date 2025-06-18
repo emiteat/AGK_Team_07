@@ -164,6 +164,7 @@ public class Blackjack : MonoBehaviour
         Debug.Log("Player Stays. Dealer's Turn.");
         isPlayerTurn = false; // 플레이어 턴 종료
         DealerTurn();
+        Turn++;
     }
 
     // 딜러 턴: 17 이상이 될 때까지 카드 추가

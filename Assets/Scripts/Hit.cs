@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class Hit : MonoBehaviour
 {
-
+    public Player Player;
 }
