@@ -276,6 +276,7 @@ MonoBehaviour:
   playerHand: []
   dealerHand: []
   Turn: 0
+  playerWin: 0
   hand: {fileID: 1825034064}
   Dealer: {fileID: 608070249}
   hitButton: {fileID: 688454524}
@@ -520,8 +521,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -748, y: -460.14}
-  m_SizeDelta: {x: 12, y: 15}
+  m_AnchoredPosition: {x: 808, y: -213}
+  m_SizeDelta: {x: 8, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &688454524
 MonoBehaviour:
@@ -652,8 +653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 118, y: -460.14}
-  m_SizeDelta: {x: 12, y: 15}
+  m_AnchoredPosition: {x: 808, y: -435}
+  m_SizeDelta: {x: 8, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1042171246
 MonoBehaviour:
@@ -876,8 +877,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -307.34, y: -460.14}
-  m_SizeDelta: {x: 12, y: 15}
+  m_AnchoredPosition: {x: 816, y: -330}
+  m_SizeDelta: {x: 8, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1609876297
 MonoBehaviour:
