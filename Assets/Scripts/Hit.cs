@@ -3,32 +3,27 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Hit : MonoBehaviour
+public class hitScript : MonoBehaviour
 {
-    public GameObject Blackjack;
-
-    void Start()
-    {
-        Main.GetComponent<Main>.Hit();    
-    }
-
+    [SerializeField]
+    private Main mainScript;
 
     public void Hit()
     {
-        if (!isPlayerTurn) return;
+        if (!mainScript.isPlayerTurn) return;
 
-        playerHand.Add(DrawCard()); // 카드 한 장 추가
-        int score = CalculateScore(playerHand); // 점수 계산
-        Turn++; // 턴 증가
+        mainScript.playerHand.Add(mainScript.DrawCard()); // 카드 한 장 추가
+        int score = mainScript.CalculateScore(mainScript.playerHand); // 점수 계산
+        mainScript.Turn++; // 턴 증가
 
-        Debug.Log("Player Hand: " + string.Join(", ", playerHand) + " (Score: " + score + ")");
+        Debug.Log("Player Hand: " + string.Join(", ", mainScript.playerHand) + " (Score: " + score + ")");
 
         if (score > 21) // 점수가 21을 초과하면 Bust 처리
         {
-            Bust();
+            mainScript.Bust();
         }
 
-        UpdateUI();
+        mainScript.UpdateUI();
     }
 
 }

@@ -7,17 +7,17 @@ public class Main : MonoBehaviour
 {
     // 게임 진행에 필요한 변수들
     [SerializeField]
-    private List<string> deck; // 카드 덱
+    public List<string> deck; // 카드 덱
     [SerializeField]
-    private List<string> playerHand; // 플레이어의 카드
+    public List<string> playerHand; // 플레이어의 카드
     [SerializeField]
-    private List<string> dealerHand; // 딜러의 카드
+    public List<string> dealerHand; // 딜러의 카드
     [SerializeField]
-    private int Turn = 0; // 현재 턴 수
+    public int Turn = 0; // 현재 턴 수
     [SerializeField]
     public bool playerWin;
 
-    public Hit Hit;
+
 
     public TextMeshProUGUI hand;
     public TextMeshProUGUI Dealer;
@@ -31,13 +31,13 @@ public class Main : MonoBehaviour
     public bool isPlayerTurn = true; // 현재 턴이 플레이어의 턴인지 확인
 
     // 게임 시작 시 호출
-    void Start()
+    public void Start()
     {
         InitializeGame();
     }
 
     // 게임 초기화: 카드 덱 생성 및 초기 손패 배분
-    void InitializeGame()
+    public void InitializeGame()
     {
         deck = CreateDeck(); // 덱 생성
         ShuffleDeck(deck); // 덱 섞기
@@ -57,7 +57,7 @@ public class Main : MonoBehaviour
     }
 
     // 덱 생성: 카드 52장 생성
-    List<string> CreateDeck()
+    public List<string> CreateDeck()
     {
         List<string> newDeck = new List<string>();
         string[] suits = { "Heart", "Diamond", "Clover", "Spade" }; // 카드 모양
@@ -75,7 +75,7 @@ public class Main : MonoBehaviour
     }
 
     // 덱 섞기
-    void ShuffleDeck(List<string> deck)
+    public void ShuffleDeck(List<string> deck)
     {
         for (int i = 0; i < deck.Count; i++)
         {
@@ -87,7 +87,7 @@ public class Main : MonoBehaviour
     }
 
     // 카드 뽑기
-    string DrawCard()
+    public string DrawCard()
     {
         if (deck.Count == 0) return null; // 덱에 카드가 없으면 null 반환
 
@@ -97,7 +97,7 @@ public class Main : MonoBehaviour
     }
 
     // 점수 계산
-    int CalculateScore(List<string> hand)
+    public int CalculateScore(List<string> hand)
     {
         int score = 0;
         int aceCount = 0;
@@ -131,7 +131,7 @@ public class Main : MonoBehaviour
     }
 
     // 플레이어가 Hit 버튼을 눌렀을 때: 카드 추가
-    public void Hit()
+/*    public void Hit()
     {
         if (!isPlayerTurn) return;
 
@@ -147,11 +147,11 @@ public class Main : MonoBehaviour
         }
 
         UpdateUI();
-    }
+    }*/
 
 
     // 플레이어가 Bust되는 경우
-    void Bust()
+     public void Bust()
     {
         Debug.Log("Player Busted! Dealer Wins.");
         hitButton.interactable = false;
@@ -161,18 +161,18 @@ public class Main : MonoBehaviour
     }
 
     // Stay 버튼: 턴을 넘기는 기능
-    public void Stay()
-    {
-        if (!isPlayerTurn) return;
+    //public void Stay()
+    //{
+    //    if (!isPlayerTurn) return;
 
-        Debug.Log("Player Stays. Dealer's Turn.");
-        isPlayerTurn = false; // 플레이어 턴 종료
-        DealerTurn();
-        Turn++;
-    }
+    //    Debug.Log("Player Stays. Dealer's Turn.");
+    //    isPlayerTurn = false; // 플레이어 턴 종료
+    //    DealerTurn();
+    //    Turn++;
+    //}
 
     // 딜러 턴: 17 이상이 될 때까지 카드 추가
-    void DealerTurn()
+    public void DealerTurn()
     {
         while (CalculateScore(dealerHand) < 17)
         {
@@ -184,7 +184,7 @@ public class Main : MonoBehaviour
     }
 
     // 승자 결정
-    void DetermineWinner()
+    public void DetermineWinner()
     {
         int playerScore = CalculateScore(playerHand);
         int dealerScore = CalculateScore(dealerHand);
@@ -208,14 +208,14 @@ public class Main : MonoBehaviour
     }
 
     // 현재 손패 UI로 출력
-    void DisplayHands()
+    public void DisplayHands()
     {
         hand.text = ("Player Hand: " + string.Join(", ", playerHand) + " (Score: " + CalculateScore(playerHand) + ")");
         Dealer.text = ("Dealer Hand: " + dealerHand[0] + ", [Hidden]"); // 딜러는 첫 카드만 공개
     }
 
     // UI 상태 업데이트
-    void UpdateUI()
+    public void UpdateUI()
     {
         int score = CalculateScore(playerHand);
 
@@ -234,7 +234,7 @@ public class Main : MonoBehaviour
     }
 
     // Die 버튼: 첫 턴에서 Die를 선택할 경우
-    void Die()
+    public void Die()
     {
         if (Turn != 0) // 첫 턴인지 확인
         {
