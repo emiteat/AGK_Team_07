@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Hit : MonoBehaviour
 {
-    public Main Blackjack;
+    public GameObject Blackjack;
 
-    public 
+    void Start()
+    {
+        Main.GetComponent<Main>.Hit();    
+    }
 
 
     public void Hit()
