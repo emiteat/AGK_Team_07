@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Blackjack : MonoBehaviour
+public class Main : MonoBehaviour
 {
     // 게임 진행에 필요한 변수들
     [SerializeField]
@@ -17,6 +17,8 @@ public class Blackjack : MonoBehaviour
     [SerializeField]
     public bool playerWin;
 
+    public Hit Hit;
+
     public TextMeshProUGUI hand;
     public TextMeshProUGUI Dealer;
 
@@ -25,7 +27,8 @@ public class Blackjack : MonoBehaviour
     public Button dieButton; // Die 버튼
     public Button stayButton; // Stay 버튼
 
-    private bool isPlayerTurn = true; // 현재 턴이 플레이어의 턴인지 확인
+    [SerializeField]    
+    public bool isPlayerTurn = true; // 현재 턴이 플레이어의 턴인지 확인
 
     // 게임 시작 시 호출
     void Start()
@@ -145,6 +148,7 @@ public class Blackjack : MonoBehaviour
 
         UpdateUI();
     }
+
 
     // 플레이어가 Bust되는 경우
     void Bust()
