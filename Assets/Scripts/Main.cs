@@ -16,6 +16,11 @@ public class Main : MonoBehaviour
     public int Turn = 0; // 현재 턴 수
     [SerializeField]
     public bool playerWin;
+    [SerializeField]
+    public bool Dead = false;
+
+    [SerializeField]
+    public HP HPscript;
 
 
 
@@ -36,6 +41,13 @@ public class Main : MonoBehaviour
         InitializeGame();
     }
 
+    public void Update()
+    {
+        // UI 및 현재 상태 표시
+        UpdateUI();
+        DisplayHands();
+    }
+
     // 게임 초기화: 카드 덱 생성 및 초기 손패 배분
     public void InitializeGame()
     {
@@ -51,9 +63,7 @@ public class Main : MonoBehaviour
         dealerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
 
-        // UI 및 현재 상태 표시
-        UpdateUI();
-        DisplayHands();
+        HPscript.HPf();
     }
 
     // 덱 생성: 카드 52장 생성
@@ -153,6 +163,7 @@ public class Main : MonoBehaviour
     // 플레이어가 Bust되는 경우
      public void Bust()
     {
+        Dead = false;
         Debug.Log("Player Busted! Dealer Wins.");
         hitButton.interactable = false;
         dieButton.interactable = false;
