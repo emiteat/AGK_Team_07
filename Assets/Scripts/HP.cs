@@ -9,7 +9,7 @@ public class HP : MonoBehaviour
     private Main HPScript;
 
     [SerializeField]
-    public int Blood;
+    public int Blood = 2;
 
     public void HPf()
     {

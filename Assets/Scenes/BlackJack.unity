@@ -446,7 +446,7 @@ MonoBehaviour:
   Turn: 0
   playerWin: 0
   Dead: 0
-  HPscript: {fileID: 0}
+  HPscript: {fileID: 226336475}
   hand: {fileID: 194931343}
   Dealer: {fileID: 126836261}
   hitButton: {fileID: 2134739277}
