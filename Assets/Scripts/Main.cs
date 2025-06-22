@@ -24,6 +24,8 @@ public class Main : MonoBehaviour
     public bool Dead = false;
     [SerializeField]
     public int Sec;
+    [SerializeField]
+    public int Blood = 2;
 
 
     public HP HPscript;
@@ -51,11 +53,22 @@ public class Main : MonoBehaviour
         // UI 및 현재 상태 표시
         UpdateUI();
         DisplayHands();
+        HPscript.HPf();
     }
 
     // 카드 덱 생성 및 초기 손패 배분, 게임 초기화
     public void InitializeGame()
     {
+        // 변수 초기화
+        playerWin = false;
+        dealerWin = false;
+        Tied = false;
+        Dead = false;
+        isPlayerTurn = true;
+        hitButton.interactable = true;
+        dieButton.interactable = true;
+        stayButton.interactable = true;
+
         deck = CreateDeck(); // 덱 생성
         ShuffleDeck(deck); // 덱 섞기
 
@@ -70,11 +83,6 @@ public class Main : MonoBehaviour
         playerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
-
-        hitButton.interactable = true;
-        dieButton.interactable = true;
-        stayButton.interactable = true;
-        isPlayerTurn = true;
     }
 
     // 덱 생성: 카드 52장 생성
@@ -177,13 +185,8 @@ public class Main : MonoBehaviour
     {
         Dead = true;
         Debug.Log("Player Busted! Dealer Wins.");
-        hitButton.interactable = false;
-        dieButton.interactable = false;
-        stayButton.interactable = false;
-        isPlayerTurn = false; // 턴 종료
-        playerWin = false;
-        dealerWin = true;
-        Tied = false;
+        Blood--;
+        InitializeGame();
     }
 
     // Stay 버튼: 턴을 넘기는 기능
@@ -218,26 +221,23 @@ public class Main : MonoBehaviour
         if (dealerScore > 21 || playerScore > dealerScore)
         {
             Debug.Log("Player Wins!");
-            playerWin = true;
-            dealerWin = false;
+            InitializeGame();
         }
         else if (dealerScore > playerScore)
         {
             Debug.Log("Dealer Wins!");
-            dealerWin = true;
-            playerWin = false;
+            InitializeGame();
         }
         else
         {
             Debug.Log("It's a Tie!");
-            Tied = true;
+            InitializeGame();
         }
-
         hitButton.interactable = false;
         dieButton.interactable = false;
         stayButton.interactable = false;
     }
-
+    
     // 현재 손패 UI로 출력
     public void DisplayHands()
     {
@@ -267,11 +267,11 @@ public class Main : MonoBehaviour
     // Die 버튼: 첫 턴에서 Die를 선택할 경우
     public void Die()
     {
-        if (Turn != 0) // 첫 턴인지 확인
+        if (Turn == 0) // 첫 턴인지 확인
         {
-            return;
+            Debug.Log("Player Chooses to Die. Dealer Wins.");
+            Bust();
         }
-        Debug.Log("Player Chooses to Die. Dealer Wins.");
-        Bust();
+        return;
     }
 }

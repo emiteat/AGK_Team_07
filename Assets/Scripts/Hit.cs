@@ -17,6 +17,7 @@ public class hitScript : MonoBehaviour
         mainScript.Turn++; // 턴 증가
 
         Debug.Log("Player Hand: " + string.Join(", ", mainScript.playerHand) + " (Score: " + score + ")");
+        //mainScript.DealerTurn();
 
         if (score > 21) // 점수가 21을 초과하면 Bust 처리
         {

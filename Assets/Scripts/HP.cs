@@ -6,32 +6,28 @@ using UnityEngine;
 public class HP : MonoBehaviour
 {
     [SerializeField]
-    private Main HPScript;
+    private Main MainScript;
 
     [SerializeField]
     public SpriteRenderer HP_Renderer;
     [SerializeField]
     public Sprite Sprite01;
 
-
     [SerializeField]
-    public int Blood = 2;
-    [SerializeField]
-    public int Num;
+    public int Num = 0;
 
     public void HPf()
     {
-        if(HPScript.Dead == true)
+        if (MainScript.Dead == true)
         {
-            Blood--;
-            HPScript.Dead = false;
-            HPScript.InitializeGame();
+            MainScript.Dead = false;
+            MainScript.InitializeGame();
         }
     }
 
     public void cardHP()
     {
-        if (Blood <= Num)
+        if (MainScript.Blood <= Num)
         {
             HP_Renderer.sprite = Sprite01;
         }

@@ -448,7 +448,8 @@ MonoBehaviour:
   Tied: 0
   Dead: 0
   Sec: 0
-  HPscript: {fileID: 0}
+  Blood: 2
+  HPscript: {fileID: 643878725}
   hand: {fileID: 194931343}
   Dealer: {fileID: 126836261}
   hitButton: {fileID: 2134739277}
@@ -528,7 +529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 205.706}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -342, y: -101}
+  m_AnchoredPosition: {x: -343, y: -3.7083}
   m_SizeDelta: {x: 308, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &312313834
@@ -687,10 +688,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585c56ea4a4a9ce429254d12198b67f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPScript: {fileID: 0}
+  MainScript: {fileID: 226336471}
   HP_Renderer: {fileID: 0}
-  Sprite01: {fileID: 1741992603, guid: 1a1cbedf6752ca445ac281e9f76fdd6d, type: 3}
-  Blood: 2
+  Sprite01: {fileID: 1100748400, guid: 9724fcdca33d60e47a69cdff7848f816, type: 3}
   Num: 0
 --- !u!114 &643878726
 MonoBehaviour:
@@ -780,10 +780,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585c56ea4a4a9ce429254d12198b67f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPScript: {fileID: 0}
+  MainScript: {fileID: 226336471}
   HP_Renderer: {fileID: 0}
-  Sprite01: {fileID: 1741992603, guid: 1a1cbedf6752ca445ac281e9f76fdd6d, type: 3}
-  Blood: 2
+  Sprite01: {fileID: 1100748400, guid: 9724fcdca33d60e47a69cdff7848f816, type: 3}
   Num: 1
 --- !u!114 &848802242
 MonoBehaviour:
@@ -1454,10 +1453,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585c56ea4a4a9ce429254d12198b67f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPScript: {fileID: 0}
+  MainScript: {fileID: 226336471}
   HP_Renderer: {fileID: 0}
-  Sprite01: {fileID: 1741992603, guid: 1a1cbedf6752ca445ac281e9f76fdd6d, type: 3}
-  Blood: 2
+  Sprite01: {fileID: 1100748400, guid: 9724fcdca33d60e47a69cdff7848f816, type: 3}
   Num: 2
 --- !u!114 &1714104502
 MonoBehaviour:
