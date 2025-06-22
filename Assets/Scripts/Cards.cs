@@ -6,6 +6,8 @@ public class Cards : MonoBehaviour
 {
     private Main main;
 
+
+
     void cardChange()
     {
 

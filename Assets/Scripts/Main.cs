@@ -17,11 +17,16 @@ public class Main : MonoBehaviour
     [SerializeField]
     public bool playerWin;
     [SerializeField]
-    public bool Dead = false;
-
+    public bool dealerWin;
     [SerializeField]
-    public HP HPscript;
+    public bool Tied;
+    [SerializeField]
+    public bool Dead = false;
+    [SerializeField]
+    public int Sec;
 
+
+    public HP HPscript;
 
 
     public TextMeshProUGUI hand;
@@ -48,7 +53,7 @@ public class Main : MonoBehaviour
         DisplayHands();
     }
 
-    // 게임 초기화: 카드 덱 생성 및 초기 손패 배분
+    // 카드 덱 생성 및 초기 손패 배분, 게임 초기화
     public void InitializeGame()
     {
         deck = CreateDeck(); // 덱 생성
@@ -57,18 +62,25 @@ public class Main : MonoBehaviour
         playerHand = new List<string>();
         dealerHand = new List<string>();
 
+        // 플레이어, 딜러 카드 삭제
+        playerHand.Clear();
+        dealerHand.Clear();
         // 플레이어와 딜러에게 카드 2장씩 배분
         playerHand.Add(DrawCard());
         playerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
 
-        HPscript.HPf();
+        hitButton.interactable = true;
+        dieButton.interactable = true;
+        stayButton.interactable = true;
+        isPlayerTurn = true;
     }
 
     // 덱 생성: 카드 52장 생성
     public List<string> CreateDeck()
     {
+        deck.Clear();
         List<string> newDeck = new List<string>();
         string[] suits = { "Heart", "Diamond", "Clover", "Spade" }; // 카드 모양
         string[] values = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" }; // 카드 값
@@ -163,12 +175,15 @@ public class Main : MonoBehaviour
     // 플레이어가 Bust되는 경우
      public void Bust()
     {
-        Dead = false;
+        Dead = true;
         Debug.Log("Player Busted! Dealer Wins.");
         hitButton.interactable = false;
         dieButton.interactable = false;
         stayButton.interactable = false;
         isPlayerTurn = false; // 턴 종료
+        playerWin = false;
+        dealerWin = true;
+        Tied = false;
     }
 
     // Stay 버튼: 턴을 넘기는 기능
@@ -203,14 +218,19 @@ public class Main : MonoBehaviour
         if (dealerScore > 21 || playerScore > dealerScore)
         {
             Debug.Log("Player Wins!");
+            playerWin = true;
+            dealerWin = false;
         }
         else if (dealerScore > playerScore)
         {
             Debug.Log("Dealer Wins!");
+            dealerWin = true;
+            playerWin = false;
         }
         else
         {
             Debug.Log("It's a Tie!");
+            Tied = true;
         }
 
         hitButton.interactable = false;
