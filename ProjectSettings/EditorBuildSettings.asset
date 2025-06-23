@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/BlackJack.unity
-    guid: 87a6e65d2e15b0e4b90ce677a65f8a09
+    path: Assets/Scenes/Main.unity
+    guid: f31e93253e1a0bc4597b0945d719a01c
   - enabled: 1
     path: Assets/Scenes/Choose.unity
     guid: 7299c77e65a6c9341ada746e72549f3a
   - enabled: 1
-    path: Assets/Scenes/Main.unity
-    guid: f31e93253e1a0bc4597b0945d719a01c
+    path: Assets/Scenes/BlackJack.unity
+    guid: 87a6e65d2e15b0e4b90ce677a65f8a09
   m_configObjects: {}
