@@ -29,6 +29,7 @@ public class Main : MonoBehaviour
 
 
     public HP HPscript;
+    public Cards Cards;
 
 
     public TextMeshProUGUI hand;
@@ -59,6 +60,7 @@ public class Main : MonoBehaviour
     // 카드 덱 생성 및 초기 손패 배분, 게임 초기화
     public void InitializeGame()
     {
+        deck.Clear();
         // 변수 초기화
         playerWin = false;
         dealerWin = false;
@@ -69,7 +71,11 @@ public class Main : MonoBehaviour
         dieButton.interactable = true;
         stayButton.interactable = true;
 
-        deck = CreateDeck(); // 덱 생성
+        CreateDeck(); // 덱 생성 * 4 총 52개의 카드 생성 / 기존에 존재하던 카드 기호 삭제
+        CreateDeck();
+        CreateDeck();
+        CreateDeck();
+
         ShuffleDeck(deck); // 덱 섞기
 
         playerHand = new List<string>();
@@ -83,23 +89,18 @@ public class Main : MonoBehaviour
         playerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
         dealerHand.Add(DrawCard());
+        Cards.cardChange();
     }
 
     // 덱 생성: 카드 52장 생성
     public List<string> CreateDeck()
     {
-        deck.Clear();
         List<string> newDeck = new List<string>();
-        string[] suits = { "Heart", "Diamond", "Clover", "Spade" }; // 카드 모양
         string[] values = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" }; // 카드 값
-
-        foreach (string suit in suits)
-        {
             foreach (string value in values)
             {
-                newDeck.Add(value + "_" + suit); // 예: "2_Heart"
+                deck.Add(value); // 예: "2_Heart"
             }
-        }
 
         return newDeck;
     }
