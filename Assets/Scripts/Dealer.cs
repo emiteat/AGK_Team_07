@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Cards : MonoBehaviour
+public class Dealer : MonoBehaviour
 {
     [SerializeField]
     public List<Sprite> cardImages;
@@ -13,7 +13,7 @@ public class Cards : MonoBehaviour
     public Main main;
 
     [SerializeField]
-    public int cardNum;
+    public int DCNum;
 
     [SerializeField]
     int value = 0;
@@ -24,9 +24,9 @@ public class Cards : MonoBehaviour
         render = GetComponent<Image>();
 
     }
-    public void cardChange()
+    public void DCChange()
     {
-        string cardStd = main.playerHand[cardNum];
+        string cardStd = main.dealerHand[DCNum];
 
         switch (cardStd)
         {

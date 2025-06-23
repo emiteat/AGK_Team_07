@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class stayScript : MonoBehaviour
 {
     [SerializeField]
-    private Main Stayscript;
+    public Main Stayscript;
+
 
     public void Stay()
     {
